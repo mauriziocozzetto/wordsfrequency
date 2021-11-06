@@ -1,7 +1,6 @@
 import streamlit as st 
 import collections
 import matplotlib.pyplot as plt
-import re
 
 st.header("Frequenza delle parole in un testo")
 
