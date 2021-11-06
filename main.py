@@ -39,6 +39,7 @@ freq = collections.OrderedDict(sorted(dct_words.items(), key=lambda t: t[1], rev
 
 number = st.slider('Quante parole vuoi visualizzare?', 3, 30)
 
+# codice di Federico adattato per il mio caso, thanks Federico Barbieri!
 # stampa del diagramma a barre
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
