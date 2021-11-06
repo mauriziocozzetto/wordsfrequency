@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 st.header("Frequenza delle parole in un testo")
 
-uploaded_file = st.file_uploader("Seleziona un file di testo dal disco (Divina Commedia per default): ", accept_multiple_files=False, type=["txt", "py"])
+uploaded_file = st.file_uploader("Seleziona un file di testo dal disco (Divina Commedia per default): ", accept_multiple_files=False, type=["txt"])
 
 if uploaded_file is None: 
     filename = 'divina.txt'
