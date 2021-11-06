@@ -35,7 +35,7 @@ for line in open(filename, 'r'):
             dct_words[word] += 1
 
 # creazione di un OrderedDict
-freq = collections.OrderedDict(sorted(dct_words.items(), key=lambda t: t[1], reverse=True))
+dct_freq = collections.OrderedDict(sorted(dct_words.items(), key=lambda t: t[1], reverse=True))
 
 number = st.slider('Quante parole vuoi visualizzare?', 3, 30)
 
@@ -43,7 +43,7 @@ number = st.slider('Quante parole vuoi visualizzare?', 3, 30)
 # stampa del diagramma a barre
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
-ax.bar(list(freq.keys())[:number],list(freq.values())[:number])
+ax.bar(list(dct_freq.keys())[:number],list(dct_freq.values())[:number])
 ax.set_xlabel('Parole')
 ax.tick_params(axis='x', labelrotation=90)
 ax.set_ylabel('Frequenza')
