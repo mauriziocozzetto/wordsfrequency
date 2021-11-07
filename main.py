@@ -15,7 +15,7 @@ else:
 dct_words = dict() 
 
 # elaborazione del file
-for line in open(filename, 'r'):
+for line in open(filename):
     line = line.lower().strip()
     
     # se la linea è vuota la salto
