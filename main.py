@@ -12,13 +12,12 @@ if uploaded_file is None:
     st.stop()
 
 stringio = StringIO(uploaded_file.getvalue().decode('utf-8'))
-string_data = stringio.read()
 
 # creazione del dizionario vuoto
 dct_words = dict() 
 
 # elaborazione del file
-for line in string_data:
+for line in stringio:
     line = line.lower().strip()
 
     # se è vuota la salto
