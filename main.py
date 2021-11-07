@@ -10,16 +10,15 @@ uploaded_file = st.file_uploader("Seleziona un file txt dal disco:", accept_mult
 if uploaded_file is None: 
     #filename = 'divina.txt'
     st.stop()
-else: 
-    filename = uploaded_file.name
 
 stringio = StringIO(uploaded_file.getvalue().decode('utf-8'))
+string_data = stringio.read()
 
 # creazione del dizionario vuoto
 dct_words = dict() 
 
 # elaborazione del file
-for line in stringio:
+for line in string_data:
     line = line.lower().strip()
 
     # se è vuota la salto
