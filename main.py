@@ -7,8 +7,7 @@ st.header("Frequenza delle parole in un testo")
 
 uploaded_file = st.file_uploader("Seleziona un file txt dal disco:", accept_multiple_files=False, type=["txt"])
 
-if uploaded_file is None: 
-    #filename = 'divina.txt'
+if uploaded_file is None:
     st.stop()
 
 stringio = StringIO(uploaded_file.getvalue().decode('utf-8'))
