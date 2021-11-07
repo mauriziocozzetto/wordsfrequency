@@ -1,33 +1,33 @@
 import streamlit as st 
 import collections
 import matplotlib.pyplot as plt
+from io import StringIO
 
 st.header("Frequenza delle parole in un testo")
 
-uploaded_file = st.file_uploader("Seleziona un file di testo dal disco (Divina Commedia per default): ", accept_multiple_files=False, type=["txt"])
+uploaded_file = st.file_uploader("Seleziona un file txt dal disco:", accept_multiple_files=False, type=["txt"])
 
 if uploaded_file is None: 
-    filename = 'divina.txt'
+    #filename = 'divina.txt'
+    st.stop()
 else: 
     filename = uploaded_file.name
+
+stringio = StringIO(uploaded_file.getvalue().decode('utf-8'))
 
 # creazione del dizionario vuoto
 dct_words = dict() 
 
 # elaborazione del file
-for line in open(filename):
+for line in stringio:
     line = line.lower().strip()
-    
-    # se la linea è vuota la salto
+
+    # se è vuota la salto
     if line == '':
         continue
     
-    # trovo le parole
     words = line.split(' ')
 
-    # per ogni parola
-    # se la parola non è nel dizionario allora la inserisco col valore 1
-    # altrimenti incremento il contatore
     for word in words:
         if word not in dct_words:
             dct_words[word] = 1
@@ -39,7 +39,6 @@ dct_freq = collections.OrderedDict(sorted(dct_words.items(), key=lambda t: t[1],
 
 number = st.slider('Quante parole vuoi visualizzare?', 3, 30)
 
-# codice di Federico adattato per il mio caso, thanks Federico Barbieri!
 # stampa del diagramma a barre
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
