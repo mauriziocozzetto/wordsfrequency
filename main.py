@@ -6,6 +6,7 @@ from io import StringIO
 st.header("Frequenza delle parole in un testo")
 
 uploaded_file = st.file_uploader("Seleziona un file txt dal disco:", accept_multiple_files=False, type=["txt"])
+number = st.slider('Quante parole vuoi visualizzare?', 3, 30)
 
 # se non ho caricato nulla mi fermo
 if uploaded_file is None:
@@ -38,8 +39,6 @@ for line in stringio:
 
 # creazione di un OrderedDict, è un nuovo dizionario ordinato in base al valore x[1], dove x è la tupla)
 dct_freq = collections.OrderedDict(sorted(dct_words.items(), key=lambda t: t[1], reverse=True))
-
-number = st.slider('Quante parole vuoi visualizzare?', 3, 30)
 
 # stampa del diagramma a barre, thank you Federico Barbieri
 fig = plt.figure()
