@@ -1,50 +1,63 @@
+
 import streamlit as st 
 import collections
 import matplotlib.pyplot as plt
-from io import StringIO
+from pathlib import Path
+from textblob import TextBlob
+from nltk.corpus import stopwords
+from operator import itemgetter
+import pandas as pd
+
+number = 3
 
 st.header("Frequenza delle parole in un testo")
 
+# file da caricare
 uploaded_file = st.file_uploader("Seleziona un file txt dal disco:", accept_multiple_files=False, type=["txt"])
-number = st.slider('Quante parole vuoi visualizzare?', 3, 30)
+# tipo UploadedFile
 
-# se non ho caricato nulla mi fermo
-if uploaded_file is None:
+# l'utente sceglie il numero
+number = st.slider('Quante parole vuoi visualizzare?', number, 30)
+
+if not uploaded_file: 
     st.stop()
 
-# in stringio c'è il file caricato in memoria
-stringio = StringIO(uploaded_file.getvalue().decode('utf-8'))
+# creo il blob
+blob = TextBlob(Path(uploaded_file.name).read_text())
 
-# creazione del dizionario vuoto
-dct_words = dict() 
+# scelgo le stopwords della lingua inglese
+stop_words = stopwords.words('english')
 
-# elaborazione del file
-for line in stringio:
-    # leggo una linea e la bonifico
-    line = line.lower().strip()
+# conto le parole
+items = blob.word_counts.items()
 
-    # se è vuota la salto
-    if line == '':
-        continue
-    
-    # estreggo le parole dalla linea
-    words = line.split(' ')
+# tolgo le stopwords
+items = [item for item in items if item[0] not in stop_words] # items senza le stop words
 
-    # per ogni parola creo una voce nel dizionario
-    for word in words:
-        if word not in dct_words:
-            dct_words[word] = 1
-        else:
-            dct_words[word] += 1
+# ordino la lista
+sorted_items = sorted(items, key=itemgetter(1), reverse=True) # (__,__) il primo elemento è la parola, il secondo elemento è la frequennza: itemgetter(1)
+print(sorted_items)
 
-# creazione di un OrderedDict, è un nuovo dizionario ordinato in base al valore x[1], dove x è la tupla)
-dct_freq = collections.OrderedDict(sorted(dct_words.items(), key=lambda t: t[1], reverse=True))
 
-# stampa del diagramma a barre, thank you Federico Barbieri
+#if not number:
+#    st.stop() 
+
+# st.write(number)
+top = sorted_items[1:number + 1]
+
+# dataframe
+df = pd.DataFrame(top, columns=['Words', 'Frequencies'])  
+print('df=', df)
+print('df words =', list(df['Words']))
+print('df frequencies =', list(df['Frequencies']))
+
+# disegno il diagramma
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
-ax.bar(list(dct_freq.keys())[:number],list(dct_freq.values())[:number])
+ax.bar(list(df['Words'])[:number],df['Frequencies'][:number])
 ax.set_xlabel('Parole')
 ax.tick_params(axis='x', labelrotation=90)
-ax.set_ylabel('Frequenza')
+ax.set_ylabel('Frequenze')
 st.pyplot(fig, number)
+
+
